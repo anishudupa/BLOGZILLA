@@ -3,7 +3,6 @@ import User from "../models/user.model";
 import ApiResponse from "../utils/ApiResponse";
 import ApiError from "../utils/ApiError";
 
-// TODO: AUTH MIDDLEWARE, VALIDATE (ZOD), ROUTES
 export const registerUser = async (
 	req: Request,
 	res: Response,

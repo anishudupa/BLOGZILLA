@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import userRouter from "./routes/user.route";
+import blogRouter from "./routes/blog.route";
 import ApiError from "./utils/ApiError";
 import ApiResponse from "./utils/ApiResponse";
 
@@ -15,8 +16,9 @@ app.get("/api/v1", (_: Request, res: Response) => {
 });
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/blogs", blogRouter);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
 	console.log("reached here");
 	if (err instanceof ApiError) {
 		res.status(400).json({
