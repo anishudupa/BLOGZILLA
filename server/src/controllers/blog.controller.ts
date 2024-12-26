@@ -3,7 +3,6 @@ import Blog from "../models/blog.model";
 import ApiResponse from "../utils/ApiResponse";
 import ApiError from "../utils/ApiError";
 
-// TODO: ROUTES OF BLOG AND TESTING (FML)
 export const createBlog = async (
 	req: Request,
 	res: Response,
