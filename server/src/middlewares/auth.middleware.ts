@@ -9,14 +9,13 @@ export const authorize = async (
 ): Promise<void> => {
 	try {
 		const token = req.header("Authorization")?.split(" ")[1];
-		console.log(token);
 		if (!token) {
 			throw new ApiError("Unauthorized. Token must be provided", 403, []);
 		}
 		const { id } = jwt.verify(token!, process.env.JWT_SECRET!) as {
 			id: string;
 		};
-		console.log(id);
+		if (!id) throw new ApiError("Invalid Token", 403, []);
 		const user = await User.findById(id);
 		if (!user) {
 			throw new ApiError("Invalid token", 403, []);

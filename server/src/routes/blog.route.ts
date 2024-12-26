@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import { validate } from "../middlewares/validate.middleware";
 import { authorize } from "../middlewares/auth.middleware";
 import {
@@ -38,7 +38,7 @@ router.get(
 );
 router.get("/:blogId", authorize, validate(getSingleBlogSchema), getSingleBlog);
 router.get(
-	"/:category",
+	"/category/:category",
 	authorize,
 	validate(getBlogsByCategorySchema),
 	getBlogsByCategory

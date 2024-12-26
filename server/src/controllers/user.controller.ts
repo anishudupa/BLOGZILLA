@@ -73,7 +73,6 @@ export const getUser = async (
 
 		res.json(new ApiResponse(undefined, user, 200, "User found successfully"));
 	} catch (error) {
-		console.log("reached get-user");
 		next(error);
 		return;
 	}

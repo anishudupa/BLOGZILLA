@@ -80,16 +80,9 @@ export const deleteBlog = async (
 			$and: [{ author: req.headers["userId"] }, { _id: blogId }],
 		});
 		if (!deletedBlog) throw new ApiError("Cannot find Blog", 404, []);
-		res
-			.status(204)
-			.json(
-				new ApiResponse(
-					"SUCCESS",
-					deletedBlog,
-					204,
-					"Blog deleted successfully"
-				)
-			);
+		res.json(
+			new ApiResponse("SUCCESS", deletedBlog, 204, "Blog deleted successfully")
+		);
 		return;
 	} catch (error) {
 		next(error);
