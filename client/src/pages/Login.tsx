@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
 	const loginSchema = z.object({
@@ -102,7 +103,9 @@ export default function Login() {
 						</div>
 						<div className="flex justify-center items-center gap-2">
 							<span>Don't have an account?</span>
-							<a className="text-md text-violet-600">Signup</a>
+							<Link to="/signup" className="text-md text-violet-600">
+								Signup
+							</Link>
 						</div>
 					</form>
 				</Form>

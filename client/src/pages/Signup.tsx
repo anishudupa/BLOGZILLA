@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
 	const signUpSchmea = z.object({
@@ -141,7 +142,9 @@ export default function Signup() {
 						</div>
 						<div className="flex justify-center items-center gap-2">
 							<span>Already have an account?</span>
-							<a className="text-md text-violet-600">Login</a>
+							<Link to="/login" className="text-md text-violet-600">
+								Login
+							</Link>
 						</div>
 					</form>
 				</Form>
