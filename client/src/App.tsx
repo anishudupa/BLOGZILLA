@@ -1,6 +1,7 @@
 import BlogCard from "./components/BlogCard";
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
+import CreateBlog from "./pages/CreateBlog";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { BrowserRouter } from "react-router-dom";
@@ -13,7 +14,7 @@ function App() {
 					{/* <ModeToggle /> */}
 					<main className="min-h-screen overflow-auto">
 						{/* <Signup /> */}
-
+						<CreateBlog />
 						{/* <Login /> */}
 					</main>
 				</ThemeProvider>
