@@ -7,9 +7,6 @@ export default function CreateBlog() {
 			<div className="p-4 flex flex-col justify-center items-center min-h-screen gap-6 w-full relative">
 				<h1 className="text-3xl text-center">Create Blog</h1>
 				<TipTap />
-				<Button type="submit" size={"lg"}>
-					Submit
-				</Button>
 			</div>
 		</>
 	);
