@@ -13,16 +13,10 @@ export default function TipTap() {
 		editorProps: {
 			attributes: {
 				class:
-					"w-[400px] h-[500px] sm:w-[700px] sm:h-[500px] border bg-gray-800 p-2",
+					"h-[500px] w-full sm:w-[700px] sm:h-[500px] border p-2 rounded-md overflow-auto light:bg-white",
 			},
 		},
 	});
 
-	return (
-		<>
-			<div className="p-4">
-				<EditorContent editor={editor} />
-			</div>
-		</>
-	);
+	return <EditorContent className="w-full sm:w-[700px]" editor={editor} />;
 }
