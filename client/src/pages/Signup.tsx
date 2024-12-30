@@ -15,8 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import API from "@/api/axios";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Signup() {
+	const { toast } = useToast();
 	const signUpSchmea = z.object({
 		username: z.string().min(3, "Username must be provided"),
 		email: z.string().email("Email is invalid"),
@@ -38,8 +41,14 @@ export default function Signup() {
 
 	const [showPassword, setShowPassword] = useState(false);
 
-	const onSubmit = (data: TSignupSchema) => {
-		console.log(data);
+	const onSubmit = async (data: TSignupSchema) => {
+		try {
+			const res = await API.post("/users/signup", data);
+			toast({ title: res?.data?.status, description: res?.data?.message });
+			form.reset();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (

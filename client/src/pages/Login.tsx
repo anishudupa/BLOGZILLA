@@ -14,8 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import API from "@/api/axios";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
+	const { toast } = useToast();
 	const loginSchema = z.object({
 		email: z.string().email("Email is invalid"),
 		password: z.string().min(8, "Password must be minimum of 8 characters"),
@@ -33,8 +36,14 @@ export default function Login() {
 
 	const [showPassword, setShowPassword] = useState(false);
 
-	const onSubmit = (data: TLoginSchema) => {
-		console.log(data);
+	const onSubmit = async (data: TLoginSchema) => {
+		try {
+			const res = await API.post("/users/login", data);
+			toast({ title: res?.data?.message, description: res?.data?.message });
+			localStorage.setItem("token", res?.data?.data);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
