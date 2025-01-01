@@ -21,7 +21,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DOMPurify from "dompurify";
 import Editor from "./Editor";
+import API from "@/api/axios";
+import { toast } from "@/hooks/use-toast";
 
+// TODO: navigate to user page after creating BLOG
 export default function TipTap() {
 	const blogSchema = z.object({
 		title: z.string().min(3, "Title must be porvided"),
@@ -54,9 +57,12 @@ export default function TipTap() {
 		"Film",
 	];
 
-	const submitBlog = (data: TBlogSchema) => {
+	const submitBlog = async (data: TBlogSchema) => {
 		const sanitizedData = DOMPurify.sanitize(data.content);
 		data.content = sanitizedData;
+		data.slug = data.slug.toLowerCase().split(" ").join("-");
+		await API.post("/blogs", data);
+		toast({ title: "Hooray!!", description: "Blog created successfully	" });
 	};
 
 	return (

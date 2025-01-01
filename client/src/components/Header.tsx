@@ -66,7 +66,7 @@ export default function Header() {
 						<Button
 							onClick={() => {
 								localStorage.removeItem("token");
-								navigate("/login");
+								navigate("/");
 							}}>
 							Logout <LogOut />
 						</Button>

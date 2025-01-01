@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import UpdateBlog from "./pages/UpdateBlog";
 import UBlogList from "./pages/UBloglist";
 import CategoryBlogList from "./pages/CategoryBlogList";
+import ReadBlog from "./pages/ReadBlog";
 
 const Protect = ({ children }: { children: React.ReactNode }) => {
 	const token = localStorage.getItem("token");
@@ -71,6 +72,9 @@ function App() {
 						</Routes> */}
 						<Home />
 						{/* <Login /> */}
+						{/* <CategoryBlogList /> */}
+						{/* <CreateBlog /> */}
+						{/* <ReadBlog id="677556ea39e69d170218d9fe" /> */}
 					</main>
 				</ThemeProvider>
 			</BrowserRouter>
