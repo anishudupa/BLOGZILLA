@@ -12,8 +12,8 @@ import { Button } from "./ui/button";
 import { Blog } from "@/pages/Home";
 import { useNavigate } from "react-router-dom";
 
-export default function UserBlogCard({ blog }: { blog: Blog }) {
-	blog.content = convert(blog.content);
+export default function BlogCard({ blog }: { blog: Blog }) {
+	const blogString = convert(blog.content);
 	const navigate = useNavigate();
 
 	return (
@@ -23,17 +23,19 @@ export default function UserBlogCard({ blog }: { blog: Blog }) {
 					<User className="text-white" />
 					<span className="text-lg text-white">{blog.author?.username}</span>
 				</div>
-				<CardTitle className="text-4xl">{blog.title}</CardTitle>
+				<CardTitle className="text-3xl">{blog.title}</CardTitle>
 				<CardDescription>{blog.excerpt}</CardDescription>
 			</CardHeader>
 			<CardContent className="text-base">
-				<p>{blog.content.substring(0, 350) + " ...read more"}</p>
+				<p>{blogString.substring(0, 1001) + " ...read more"}</p>
 			</CardContent>
 			<CardFooter className="flex items-center space-x-4">
 				<div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
 					<Button
 						className="text-base"
-						onClick={() => navigate(`/blog/${blog.slug}`)}>
+						onClick={() =>
+							navigate(`/blog/${blog.slug}`, { state: { blogId: blog._id } })
+						}>
 						<SquareArrowOutUpRight /> Read Post
 					</Button>
 				</div>

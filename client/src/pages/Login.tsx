@@ -16,8 +16,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import API from "@/api/axios";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+	const navigate = useNavigate();
 	const { toast } = useToast();
 	const loginSchema = z.object({
 		email: z.string().email("Email is invalid"),
@@ -41,6 +43,7 @@ export default function Login() {
 			const res = await API.post("/users/login", data);
 			toast({ title: res?.data?.message, description: res?.data?.message });
 			localStorage.setItem("token", res?.data?.data);
+			navigate("/");
 		} catch (error) {
 			console.error(error);
 		}
@@ -90,9 +93,9 @@ export default function Login() {
 												className="absolute top-1/2 right-3 transform -translate-y-1/2"
 												onClick={() => setShowPassword(!showPassword)}>
 												{showPassword ? (
-													<Eye size={20} />
-												) : (
 													<EyeOff size={20} />
+												) : (
+													<Eye size={20} />
 												)}
 											</button>
 										</div>

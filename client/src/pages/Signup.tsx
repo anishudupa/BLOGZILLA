@@ -17,9 +17,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import API from "@/api/axios";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
 	const { toast } = useToast();
+
 	const signUpSchmea = z.object({
 		username: z.string().min(3, "Username must be provided"),
 		email: z.string().email("Email is invalid"),
@@ -41,11 +43,14 @@ export default function Signup() {
 
 	const [showPassword, setShowPassword] = useState(false);
 
+	const navigate = useNavigate();
+
 	const onSubmit = async (data: TSignupSchema) => {
 		try {
 			const res = await API.post("/users/signup", data);
 			toast({ title: res?.data?.status, description: res?.data?.message });
 			form.reset();
+			navigate("/login");
 		} catch (error) {
 			console.error(error);
 		}
@@ -112,9 +117,9 @@ export default function Signup() {
 												className="absolute top-1/2 right-3 transform -translate-y-1/2"
 												onClick={() => setShowPassword(!showPassword)}>
 												{showPassword ? (
-													<Eye size={20} />
-												) : (
 													<EyeOff size={20} />
+												) : (
+													<Eye size={20} />
 												)}
 											</button>
 										</div>

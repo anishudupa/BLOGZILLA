@@ -29,7 +29,6 @@ export default function Home() {
 			const res = await API.get("/blogs/random", {
 				params: { offset: queryParams.offset, perPage: queryParams.perPage },
 			});
-			console.log(res.data?.data);
 			setBlogs((prev) => [...prev, ...res.data?.data]);
 		})();
 	}, [queryParams]);

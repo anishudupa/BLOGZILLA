@@ -1,5 +1,3 @@
-import BlogCard from "./components/BlogCard";
-import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import CreateBlog from "./pages/CreateBlog";
 import Login from "./pages/Login";
@@ -15,7 +13,7 @@ import ReadBlog from "./pages/ReadBlog";
 const Protect = ({ children }: { children: React.ReactNode }) => {
 	const token = localStorage.getItem("token");
 	if (!token) {
-		<Navigate to={"/signup"} replace />;
+		return <Navigate to={"/signup"} replace />;
 	} else return <>{children}</>;
 };
 function App() {
@@ -24,9 +22,9 @@ function App() {
 			<BrowserRouter>
 				<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 					{/* <ModeToggle /> */}
-					<Header />
 					<main className="min-h-screen overflow-auto">
-						{/* <Routes>
+						<Header />
+						<Routes>
 							<Route path="/signup" element={<Signup />} />
 							<Route path="/login" element={<Login />} />
 							<Route
@@ -69,12 +67,15 @@ function App() {
 									</Protect>
 								}
 							/>
-						</Routes> */}
-						<Home />
-						{/* <Login /> */}
-						{/* <CategoryBlogList /> */}
-						{/* <CreateBlog /> */}
-						{/* <ReadBlog id="677556ea39e69d170218d9fe" /> */}
+							<Route
+								path="/blog/:slug"
+								element={
+									<Protect>
+										<ReadBlog />
+									</Protect>
+								}
+							/>
+						</Routes>
 					</main>
 				</ThemeProvider>
 			</BrowserRouter>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
+import { nanoid } from "nanoid";
 import {
 	Select,
 	SelectContent,
@@ -25,6 +26,8 @@ export default function Header() {
 					console.log(error);
 				}
 			})();
+		} else {
+			setUser(null);
 		}
 	}, [token]);
 	const categories = [
@@ -43,7 +46,16 @@ export default function Header() {
 					<Link to="/">
 						<House />
 					</Link>
-					{user ? <p>Hi, {user}</p> : <p>Please, login!!</p>}
+					{user ? (
+						<p>
+							Hi,{" "}
+							<Link to="/me" className="hover:underline">
+								{user}
+							</Link>
+						</p>
+					) : (
+						<p>Please, login!!</p>
+					)}
 				</div>
 				{user ? (
 					<div className="w-1/2 flex gap-4 justify-end items-center">
@@ -51,7 +63,8 @@ export default function Header() {
 							Create <Plus />
 						</Button>
 						<ModeToggle />
-						<Select>
+						<Select
+							onValueChange={(val) => navigate(`/${val}`, { state: nanoid() })}>
 							<SelectTrigger className="w-[180px]">
 								<SelectValue placeholder="Select a category" />
 								<SelectContent>
@@ -66,7 +79,7 @@ export default function Header() {
 						<Button
 							onClick={() => {
 								localStorage.removeItem("token");
-								navigate("/");
+								navigate("/signup");
 							}}>
 							Logout <LogOut />
 						</Button>

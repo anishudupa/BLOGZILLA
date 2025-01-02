@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Blog } from "./Home";
 import API from "@/api/axios";
-// add update and delete logic into cards
+import UserBlogCard from "@/components/UserBlogCard";
+
 export default function UBlogList() {
 	const [userBlogs, setUserBlogs] = useState<Blog[] | []>([]);
 	useEffect(() => {
@@ -14,5 +15,17 @@ export default function UBlogList() {
 			}
 		})();
 	}, []);
-	return <></>;
+	return (
+		<>
+			<div className="w-full min-h-screen overflow-auto flex flex-wrap p-4 gap-4 justify-center items-center">
+				{userBlogs.map((blog: Blog) => (
+					<UserBlogCard
+						blog={blog}
+						key={blog._id}
+						setUserBlogs={setUserBlogs}
+					/>
+				))}
+			</div>
+		</>
+	);
 }

@@ -13,6 +13,7 @@ import {
 	Highlighter,
 	AlignLeft,
 } from "lucide-react";
+import { Blog } from "@/pages/Home";
 
 export default function Editor({
 	description,
@@ -46,6 +47,7 @@ export default function Editor({
 		},
 	});
 	if (!editor) return null;
+	// editor.commands.setContent(blog?.content!);
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex gap-3 border rounded-sm p-2 border-white w-[900px]">

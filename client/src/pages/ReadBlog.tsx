@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Blog } from "./Home";
 import API from "@/api/axios";
-
-export default function ReadBlog({ id }: { id: string }) {
+import { useLocation } from "react-router-dom";
+export default function ReadBlog() {
 	const [blog, setBlog] = useState<Blog | null>(null);
+	const { blogId } = useLocation().state;
 	useEffect(() => {
 		(async function () {
 			try {
-				const res = await API.get(`/blogs/${id}`);
+				const res = await API.get(`/blogs/${blogId}`);
 				setBlog(res.data?.data);
 			} catch (error) {
 				console.log(error);

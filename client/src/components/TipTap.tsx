@@ -23,28 +23,36 @@ import DOMPurify from "dompurify";
 import Editor from "./Editor";
 import API from "@/api/axios";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { Blog } from "@/pages/Home";
 
-// TODO: navigate to user page after creating BLOG
-export default function TipTap() {
+export default function TipTap({
+	type,
+	blogId,
+	blog,
+}: {
+	type?: string;
+	blogId?: string;
+	blog?: Blog;
+}) {
+	const navigate = useNavigate();
 	const blogSchema = z.object({
 		title: z.string().min(3, "Title must be porvided"),
 		content: z.string().min(3, "Content must be provided"),
 		excerpt: z.string().optional(),
 		slug: z.string(),
-		category: z
-			.enum(["Food", "Tech", "Politics", "Culture", "Programming", "Film", ""])
-			.optional(),
+		category: z.string().optional(),
 	});
 	type TBlogSchema = z.infer<typeof blogSchema>;
 
 	const form = useForm<TBlogSchema>({
 		resolver: zodResolver(blogSchema),
 		defaultValues: {
-			title: "",
-			category: "",
+			title: blog?.title || "",
+			category: blog?.category || "",
 			content: "",
-			excerpt: "",
-			slug: "",
+			excerpt: blog?.excerpt || "",
+			slug: blog?.slug || "",
 		},
 	});
 
@@ -57,12 +65,37 @@ export default function TipTap() {
 		"Film",
 	];
 
+	function slugify(str: string) {
+		str = str.replace(/^\s+|\s+$/g, ""); // trim leading/trailing white space
+		str = str.toLowerCase(); // convert string to lowercase
+		str = str
+			.replace(/[^a-z0-9 -]/g, "") // remove any non-alphanumeric characters
+			.replace(/\s+/g, "-") // replace spaces with hyphens
+			.replace(/-+/g, "-"); // remove consecutive hyphens
+		return str;
+	}
 	const submitBlog = async (data: TBlogSchema) => {
-		const sanitizedData = DOMPurify.sanitize(data.content);
-		data.content = sanitizedData;
-		data.slug = data.slug.toLowerCase().split(" ").join("-");
-		await API.post("/blogs", data);
-		toast({ title: "Hooray!!", description: "Blog created successfully	" });
+		try {
+			if (type === "update") {
+				const sanitizedData = DOMPurify.sanitize(data.content);
+				data.content = sanitizedData;
+				data.slug = slugify(data.slug);
+				const res = await API.put(`/blogs/${blogId}`, data);
+				toast({
+					title: res.data?.status,
+					description: res.data?.message,
+				});
+			} else {
+				const sanitizedData = DOMPurify.sanitize(data.content);
+				data.content = sanitizedData;
+				data.slug = data.slug.toLowerCase().split(" ").join("-");
+				await API.post("/blogs", data);
+				toast({ title: "Hooray!!", description: "Blog created successfully	" });
+			}
+			navigate("/me");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -150,7 +183,10 @@ export default function TipTap() {
 						render={({ field }) => (
 							<FormItem className="w-full">
 								<FormControl>
-									<Editor description={field.name} onChange={field.onChange} />
+									<Editor
+										description={blog?.content ?? field.name}
+										onChange={field.onChange}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -160,7 +196,7 @@ export default function TipTap() {
 						type="submit"
 						className="text-lg p-4"
 						disabled={form.formState.isSubmitting}>
-						Create
+						{type === "update" ? "Update" : "Create"}
 					</Button>
 				</form>
 			</Form>
