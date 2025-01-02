@@ -41,7 +41,7 @@ export default function Login() {
 	const onSubmit = async (data: TLoginSchema) => {
 		try {
 			const res = await API.post("/users/login", data);
-			toast({ title: res?.data?.message, description: res?.data?.message });
+			toast({ title: res?.data?.status, description: res?.data?.message });
 			localStorage.setItem("token", res?.data?.data);
 			navigate("/");
 		} catch (error) {
