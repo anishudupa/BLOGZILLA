@@ -1,13 +1,4 @@
-import { title } from "process";
 import { z } from "zod";
-
-// type TBlog = {
-// 	title: string;
-// 	content: string;
-// 	excerpt: string;
-// 	slug: string;
-// 	author: unknown;
-// };
 
 export const createBlogSchema = z.object({
 	body: z.object({
@@ -17,10 +8,10 @@ export const createBlogSchema = z.object({
 		slug: z
 			.string()
 			.regex(new RegExp("^[a-z0-9]+(?:-[a-z0-9]+)*$"), "Invalid slug"),
+		category: z
+			.enum(["Food", "Tech", "Politics", "Culture", "Programming", "Film"])
+			.optional(),
 	}),
-	category: z
-		.enum(["Food", "Tech", "Politics", "Culture", "Programming", "Film"])
-		.optional(),
 });
 
 export const updateBlogSchema = z.object({

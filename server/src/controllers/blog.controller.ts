@@ -111,7 +111,9 @@ export const getRandomBlogs = async (
 		const { offset, perPage } = req.query;
 		const blogs = await Blog.find({})
 			.skip(Number(offset))
-			.limit(Number(perPage));
+			.limit(Number(perPage))
+			.populate("author")
+			.select("-password");
 		res.json(
 			new ApiResponse("SUCCESS", blogs, 200, "got random blogs successfully")
 		);
